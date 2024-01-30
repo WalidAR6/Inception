@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:12.0
 
 WORKDIR /bin
 

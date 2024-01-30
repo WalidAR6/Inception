@@ -1,10 +1,8 @@
 #!/bin/bash
 
-export DATABASE="dockerIsFun"
+export DATABASE="wordpress"
 export USERNAME="obmium"
 export USERPASS="obmiumpass"
-export ADMINNAME="admin"
-export ADMINPASS="adminpass"
 export ROOTPASS="rootpass"
 
 set -x
@@ -25,18 +23,14 @@ n
 y
 EOF
 
-mariadb -e "create database $DATABASE;"
+mariadb -e "CREATE DATABASE IF NOT EXISTS $DATABASE;"
 
-mariadb -e "create user '$USERNAME'@'%' identified by '$USERPASS';"
+mariadb -e "CREATE USER IF NOT EXISTS '$USERNAME'@'%' IDENTIFIED BY '$USERPASS';"
 
-mariadb -e "grant all privileges on $DATABASE.* to '$USERNAME'@'%' with grant option;"
+mariadb -e "GRANT ALL PRIVILEGES ON $DATABASE.* TO '$USERNAME'@'%' WITH GRANT OPTION;"
 
-mariadb -e "create user '$ADMINNAME'@'%' identified by '$ADMINPASS';"
-
-mariadb -e "grant all privileges on *.* to '$ADMINNAME'@'%' with grant option;"
-
-mariadb -e "flush privileges;"
+mariadb -e "FLUSH PRIVILEGES;"
 
 service mariadb stop
 
-mysqld
+mysqld --user=root
