@@ -1,15 +1,13 @@
-FROM debian:bullseye
+FROM debian:12.0
 
 WORKDIR /var/www/inception
 
-COPY /tools/ssl-req.sh .
+COPY /tools/ssl-req.sh /bin
 
 RUN apt update \
-    && apt install openssl && apt install nginx -y \
-    && chmod +x ssl-req.sh
-
-COPY /tools/index.html .
+    && apt install openssl -y && apt install nginx -y \
+    && chmod +x /bin/ssl-req.sh
 
 COPY /conf/ng.conf /etc/nginx/sites-available/default
 
-CMD [ "./ssl-req.sh"]
+CMD [ "bash", "/bin/ssl-req.sh"]
