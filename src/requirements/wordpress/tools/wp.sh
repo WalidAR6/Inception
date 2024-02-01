@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 10
+
 set -x
 
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -8,8 +10,8 @@ chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 if ! wp core is-installed --allow-root; then
     wp core download --allow-root
-    wp config create --dbname=wordpress --dbuser=obmium --dbpass=obmiumpass --dbhost=mariadb --allow-root
-    wp core install --url=localhost --title=wp --admin_user=obm --admin_password=obmpass --admin_email=obm@gmail.com --allow-root
+    wp config create --dbname=$MARIADB_DATABASE --dbuser=$MARIADB_USER --dbpass=$MARIADB_PASSWORD --dbhost=$MARIADB_HOST --allow-root
+    wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --allow-root
 fi
 
 python3 -m venv env
@@ -19,8 +21,8 @@ if ! pip3 list | grep mysql-connector-python; then
     pip3 install mysql-connector-python > /dev/null 2>&1
 fi
 
-user=$(python3 /bin/user_check.py walid) && if [ "$user" = "does not exist" ]; then
-    wp user create walid walid@gmail.com --role=author --user_pass=walidpass --allow-root
+user=$(python3 /bin/user_check.py $WP_AUTHOR) && if [ "$user" = "does not exist" ]; then
+    wp user create $WP_AUTHOR $WP_AUTHOR_EMAIL --role=author --user_pass=$WP_AUTHOR_PASSWORD --allow-root
 fi > /dev/null 2>&1
 
 deactivate > /dev/null 2>&1
