@@ -6,14 +6,12 @@ networks:
 volumes:
   data_www:
     name: www
-    driver: local
     driver_opts:
       type: 'none'
       device: '${PWD}/www'
       o: 'bind'
   data_db:
     name: db
-    driver: local
     driver_opts:
       type: 'none'
       device: '${PWD}/db'
@@ -32,6 +30,9 @@ services:
       - 443:443
     depends_on:
       - wordpress
+    environment:
+      - CERT=$CERT
+      - CERT_KEY=$CERT_KEY
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -40,6 +41,11 @@ services:
       - inception
     volumes:
       - data_db:/var/lib/mysql
+    environment:
+      - MARIADB_DATABASE=$MARIADB_DATABASE
+      - MARIADB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+      - MARIADB_USER=$MARIADB_USER
+      - MARIADB_PASSWORD=$MARIADB_PASSWORD
   wordpress:
     container_name: wordpress
     image: wordpress
@@ -50,3 +56,5 @@ services:
       - inception
     depends_on:
       - mariadb
+    env_file:
+      - .env
