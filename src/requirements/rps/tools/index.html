@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Play with Friends</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="scissor.png" />
+</head>
+<body>  
+    <div class="header">
+        <span><strong>ROCK</strong></span>PAPER<span><strong>SCISSORS</strong></span>
+    </div>
+    <div class="zebda">
+        <p>Pick one !</p>
+    </div>
+    <div  class="score">
+        <span class="player-score">Player: </span><span id="player"></span>
+        <span class="computer-score">Computer: </span><span  id="computer"></span>
+    </div>
+    <div class="boxes">
+        <div data-modal-target="#modal" onclick="randomanswer('rock')" class="rock">
+            <div class="hajra">
+                <img src="rock.png">
+            </div>
+                <h2>ROCK</h2>
+        </div>
+        <div data-modal-target="#modal" onclick="randomanswer('paper')" class="paper">
+            <div class="wer9a">
+                <img src="paper.png">
+            </div>
+                <h2>PAPER</h2>
+        </div>
+        <div data-modal-target="#modal" onclick="randomanswer('scissors')" class="scissor">
+            <div class="m9ess">
+                <img src="scissor.png">
+            </div>
+                <h2>SCISSOR</h2>         
+        </div>
+    </div>
+    <div class="check">
+        <input class="pwf" type="submit" value="Play with friends   →">
+    </div>
+    <div class="coffee">
+        <p>made by l oubama.</p> <strong> <a href="https://paypal.me/AraissiWalid">paypal me</a></strong>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal-header">
+           <button data-close-button class="close-button" onclick="togglemodal()" class="close-button">&times;</button>
+        </div>
+        <div id="text" class="modal-body">
+            <p class="result">
+                
+            </p>
+        </div>
+    </div>
+    <div class="" onclick="togglemodal()" id="overlay"></div>
+</body>
+<script src="script.js"></script>
+</html>
