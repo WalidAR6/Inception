@@ -2,6 +2,7 @@ version: '3.8'
 
 networks:
   inception:
+    name: inception
 
 volumes:
   data_www:
@@ -16,6 +17,18 @@ volumes:
       type: 'none'
       device: '${PWD}/db'
       o: 'bind'
+  data_rps:
+    name: rps
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/rps'
+      o: 'bind'
+  provisioning:
+    name: provisioning
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/grafana'
+      o: bind
 
 services:
   nginx:
@@ -24,12 +37,14 @@ services:
     build: ./requirements/nginx
     volumes:
       - data_www:/var/www/inception
+      - data_rps:/var/www/rps
     networks:
       - inception
     ports:
       - 443:443
     depends_on:
       - wordpress
+      - adminer
     environment:
       - CERT=$CERT
       - CERT_KEY=$CERT_KEY
@@ -55,6 +70,49 @@ services:
     networks:
       - inception
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy        
     env_file:
       - .env
+  redis:
+    container_name: redis
+    image: redis
+    build: ./requirements/redis
+    networks:
+      - inception
+  adminer:
+    container_name: adminer
+    image: adminer
+    build: ./requirements/adminer
+    networks:
+      - inception
+    ports:
+      - 8080
+  rps:
+    container_name: rps
+    image: rps
+    build: ./requirements/rps
+    networks:
+      - inception
+    volumes:
+      - data_rps:/var/www/rps
+  prometheus:
+    container_name: prometheus
+    image: prometheus
+    build: ./requirements/prometheus
+    networks:
+      - inception
+    ports:
+      - 9090
+  grafana:
+    image: grafana
+    container_name: grafana
+    build: ./requirements/grafana
+    networks:
+      - inception
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    volumes:
+      - provisioning:/etc/grafana/
