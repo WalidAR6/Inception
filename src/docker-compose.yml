@@ -37,7 +37,6 @@ services:
     build: ./requirements/nginx
     volumes:
       - data_www:/var/www/inception
-      - data_rps:/var/www/rps
     networks:
       - inception
     ports:
@@ -48,6 +47,7 @@ services:
     environment:
       - CERT=$CERT
       - CERT_KEY=$CERT_KEY
+      - DOMAIN_NAME=$DOMAIN_NAME
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -96,6 +96,8 @@ services:
       - inception
     volumes:
       - data_rps:/var/www/rps
+    ports:
+      - 1337:1337
   prometheus:
     container_name: prometheus
     image: prometheus
@@ -103,7 +105,7 @@ services:
     networks:
       - inception
     ports:
-      - 9090
+      - 9090:9090
   grafana:
     image: grafana
     container_name: grafana
