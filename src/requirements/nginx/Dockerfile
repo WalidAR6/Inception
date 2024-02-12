@@ -5,9 +5,9 @@ WORKDIR /var/www/inception
 COPY /tools/ssl-req.sh /bin
 
 RUN apt update \
-    && apt install openssl -y && apt install nginx -y \
+    && apt install openssl nginx gettext-base -y \
     && chmod +x /bin/ssl-req.sh
 
-COPY /conf/ng.conf /etc/nginx/sites-available/default
+COPY /conf/nginx.conf.template /etc/nginx
 
 CMD [ "bash", "/bin/ssl-req.sh"]

@@ -13,4 +13,4 @@ ljnrvlss
 
 EOF
 
-nginx -g "daemon off;"
+envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/sites-available/default && nginx -g "daemon off;"
