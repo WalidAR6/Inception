@@ -91,7 +91,7 @@ services:
   rps:
     container_name: rps
     image: rps
-    build: ./requirements/rps
+    build: ./requirements/rock_paper_scissor
     networks:
       - inception
     volumes:
@@ -106,6 +106,8 @@ services:
       - inception
     ports:
       - 9090:9090
+    environment:
+      - hh=$hh
   grafana:
     image: grafana
     container_name: grafana
@@ -116,5 +118,7 @@ services:
       - 3000:3000
     depends_on:
       - prometheus
+    environment:
+      - GF_INSTALL_PLUGINS=redis-datasource
     volumes:
       - provisioning:/etc/grafana/
