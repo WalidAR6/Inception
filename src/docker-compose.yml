@@ -17,18 +17,6 @@ volumes:
       type: 'none'
       device: '${HOME}/data/db'
       o: 'bind'
-  data_rps:
-    name: rps
-    driver_opts:
-      type: 'none'
-      device: '${HOME}/data/rps'
-      o: 'bind'
-  provisioning:
-    name: provisioning
-    driver_opts:
-      type: 'none'
-      device: '${HOME}/data/grafana_vol'
-      o: bind
 
 services:
   nginx:
