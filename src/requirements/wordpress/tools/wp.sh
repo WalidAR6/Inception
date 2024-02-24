@@ -1,9 +1,5 @@
 #!/bin/bash
 
-sleep 10
-
-set -x
-
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
@@ -22,8 +18,7 @@ wp config set WP_REDIS_PORT 6379 --allow-root
 wp config set WP_REDIS_HOST redis --allow-root
 wp config set FS_METHOD direct --allow-root
 wp plugin install redis-cache --activate --allow-root
-wp plugin install health-endpoint --activate --allow-root
-chown www-data:www-data *
+chmod 777 -R .
 
 wp redis enable --allow-root
 
