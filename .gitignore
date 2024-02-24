@@ -1,5 +1,5 @@
 .env
 db
 www
-grafana
+grafana_vol
 rps
