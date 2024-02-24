@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 sed -i -e "s/127.0.0.1/0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"
 
 service mariadb start
@@ -18,14 +16,14 @@ n
 y
 EOF
 
-mariadb -e "CREATE DATABASE IF NOT EXISTS $MARIADB_DATABASE;"
+mariadb -uroot -e "CREATE DATABASE IF NOT EXISTS $MARIADB_DATABASE;" -p$MARIADB_ROOT_PASSWORD
 
-mariadb -e "CREATE USER IF NOT EXISTS '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';"
+mariadb -uroot -e "CREATE USER IF NOT EXISTS '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';" -p$MARIADB_ROOT_PASSWORD
 
-mariadb -e "GRANT ALL PRIVILEGES ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' WITH GRANT OPTION;"
+mariadb -uroot -e "GRANT ALL PRIVILEGES ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' WITH GRANT OPTION;" -p$MARIADB_ROOT_PASSWORD
 
-mariadb -e "FLUSH PRIVILEGES;"
+mariadb -uroot -e "FLUSH PRIVILEGES;" -p$MARIADB_ROOT_PASSWORD
 
 service mariadb stop
 
-mariadbd --user=root
+mariadbd
