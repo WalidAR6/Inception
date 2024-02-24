@@ -12,15 +12,10 @@ server {
     
     location ~\.php$ {
         fastcgi_pass wordpress:9000;
-        fastcgi_index index.php;
         include fastcgi.conf;
     }
 
     location /adminer {
-        proxy_pass http://adminer:8080/;
-    }
-
-    location /rps {
-        proxy_pass http://rps:1337/;
+	proxy_pass http://adminer:8080;		
     }
 }
