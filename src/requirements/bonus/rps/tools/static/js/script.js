@@ -47,3 +47,7 @@ function randomanswer(user){
     document.getElementById("player").textContent =  user ;
     document.getElementById("computer").textContent = computer ;
 }
+
+document.getElementById("pwfid").onclick = function () {
+    location.reload();
+}
